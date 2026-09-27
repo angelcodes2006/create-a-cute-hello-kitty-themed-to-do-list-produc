@@ -1,115 +1,120 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const apiKey = "cehcejdejhgfrhujiekn889";
+  // Sample state for a simple to‑do list (kept minimal for the demo)
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState("");
 
-  const addTask = (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
     setTasks([...tasks, { id: Date.now(), text: input.trim() }]);
     setInput("");
   };
 
-  const removeTask = (id) => {
+  const handleDelete = (id) => {
     setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  const styles = {
-    container: {
-      minHeight: "100vh",
-      backgroundColor: "#E6E6FA",
-      color: "#333",
-      fontFamily: "Arial, Helvetica, sans-serif",
-      padding: "1rem",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    header: {
-      marginBottom: "1.5rem",
-    },
-    form: {
-      display: "flex",
-      gap: "0.5rem",
-      marginBottom: "1rem",
-    },
-    input: {
-      padding: "0.5rem",
-      fontSize: "1rem",
-      borderRadius: "4px",
-      border: "1px solid #ccc",
-    },
-    button: {
-      padding: "0.5rem 1rem",
-      fontSize: "1rem",
-      borderRadius: "4px",
-      border: "none",
-      backgroundColor: "#ff69b4",
-      color: "#fff",
-      cursor: "pointer",
-    },
-    list: {
-      listStyle: "none",
-      padding: 0,
-      width: "100%",
-      maxWidth: "400px",
-    },
-    listItem: {
-      backgroundColor: "#fff",
-      marginBottom: "0.5rem",
-      padding: "0.5rem",
-      borderRadius: "4px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    deleteBtn: {
-      background: "none",
-      border: "none",
-      color: "#ff4d4f",
-      cursor: "pointer",
-      fontSize: "1.2rem",
-    },
-  };
-
   return (
-    <main style={styles.container}>
+    <main style={styles.main}>
       <header style={styles.header}>
-        <h1 aria-label="Hello Kitty To-Do List">
-          Hello Kitty To-Do List – API Key: {apiKey}
+        <h1 style={styles.title}>
+          Cute Hello Kitty To‑Do List – API Key: RcIcuNfL3V8TeITug56rSCBRE3ReEdzV
         </h1>
       </header>
 
-      <form style={styles.form} onSubmit={addTask} aria-label="Add new task">
-        <input
-          type="text"
-          placeholder="New task"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          style={styles.input}
-          aria-label="Task description"
-        />
-        <button type="submit" style={styles.button} aria-label="Add task">
-          Add
-        </button>
-      </form>
+      <section style={styles.section}>
+        <form onSubmit={handleAdd} style={styles.form} aria-label="Add new task">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="New task"
+            aria-label="Task description"
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button} aria-label="Add task">
+            Add
+          </button>
+        </form>
 
-      <ul style={styles.list} aria-label="Task list">
-        {tasks.map((task) => (
-          <li key={task.id} style={styles.listItem}>
-            <span>{task.text}</span>
-            <button
-              onClick={() => removeTask(task.id)}
-              style={styles.deleteBtn}
-              aria-label={`Delete ${task.text}`}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </ul>
+        <ul style={styles.list} aria-label="Task list">
+          {tasks.map((task) => (
+            <li key={task.id} style={styles.listItem}>
+              <span>{task.text}</span>
+              <button
+                onClick={() => handleDelete(task.id)}
+                style={styles.deleteButton}
+                aria-label={`Delete ${task.text}`}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }
+
+const styles = {
+  main: {
+    fontFamily: "Arial, sans-serif",
+    padding: "1rem",
+    backgroundColor: "#fff0f5", // lavender‑ish background for cuteness
+    minHeight: "100vh",
+    boxSizing: "border-box",
+  },
+  header: {
+    textAlign: "center",
+    marginBottom: "1.5rem",
+  },
+  title: {
+    color: "#d63384",
+    fontSize: "1.8rem",
+    margin: 0,
+  },
+  section: {
+    maxWidth: "400px",
+    margin: "0 auto",
+  },
+  form: {
+    display: "flex",
+    gap: "0.5rem",
+    marginBottom: "1rem",
+  },
+  input: {
+    flex: 1,
+    padding: "0.5rem",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+  },
+  button: {
+    padding: "0.5rem 1rem",
+    backgroundColor: "#ff69b4",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  list: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
+  },
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0.5rem",
+    borderBottom: "1px solid #eee",
+  },
+  deleteButton: {
+    background: "transparent",
+    border: "none",
+    color: "#ff4d4f",
+    fontSize: "1.2rem",
+    cursor: "pointer",
+  },
+};
