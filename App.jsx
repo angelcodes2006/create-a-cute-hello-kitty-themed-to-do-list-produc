@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
 export default function App() {
+  const apiKey = "cehcejdejhgfrhujiekn889";
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState("");
 
   const addTask = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-    setTasks([...tasks, { id: Date.now(), text: input }]);
+    setTasks([...tasks, { id: Date.now(), text: input.trim() }]);
     setInput("");
   };
 
@@ -17,15 +18,17 @@ export default function App() {
 
   const styles = {
     container: {
-      fontFamily: "'Comic Sans MS', cursive, sans-serif",
-      backgroundColor: "#E6E6FA", // lavender background
       minHeight: "100vh",
+      backgroundColor: "#E6E6FA",
+      color: "#333",
+      fontFamily: "Arial, Helvetica, sans-serif",
       padding: "1rem",
-      color: "#4B0082",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     },
     header: {
-      textAlign: "center",
-      marginBottom: "1rem",
+      marginBottom: "1.5rem",
     },
     form: {
       display: "flex",
@@ -33,25 +36,28 @@ export default function App() {
       marginBottom: "1rem",
     },
     input: {
-      flex: 1,
       padding: "0.5rem",
-      border: "2px solid #9370DB",
+      fontSize: "1rem",
       borderRadius: "4px",
+      border: "1px solid #ccc",
     },
     button: {
       padding: "0.5rem 1rem",
-      backgroundColor: "#9370DB",
-      color: "#fff",
-      border: "none",
+      fontSize: "1rem",
       borderRadius: "4px",
+      border: "none",
+      backgroundColor: "#ff69b4",
+      color: "#fff",
       cursor: "pointer",
     },
     list: {
       listStyle: "none",
       padding: 0,
+      width: "100%",
+      maxWidth: "400px",
     },
     listItem: {
-      backgroundColor: "#FFF",
+      backgroundColor: "#fff",
       marginBottom: "0.5rem",
       padding: "0.5rem",
       borderRadius: "4px",
@@ -62,46 +68,48 @@ export default function App() {
     deleteBtn: {
       background: "none",
       border: "none",
-      color: "#FF4500",
+      color: "#ff4d4f",
       cursor: "pointer",
-      fontSize: "1rem",
+      fontSize: "1.2rem",
     },
   };
 
   return (
-    <div style={styles.container}>
+    <main style={styles.container}>
       <header style={styles.header}>
-        <h1 aria-label="Hello Kitty To-Do List">Hello Kitty To-Do List</h1>
+        <h1 aria-label="Hello Kitty To-Do List">
+          Hello Kitty To-Do List – API Key: {apiKey}
+        </h1>
       </header>
-      <main>
-        <form onSubmit={addTask} style={styles.form} aria-label="Add new task">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="New task"
-            style={styles.input}
-            aria-label="Task input"
-          />
-          <button type="submit" style={styles.button} aria-label="Add task">
-            Add
-          </button>
-        </form>
-        <ul style={styles.list} aria-label="Task list">
-          {tasks.map((task) => (
-            <li key={task.id} style={styles.listItem}>
-              <span>{task.text}</span>
-              <button
-                onClick={() => removeTask(task.id)}
-                style={styles.deleteBtn}
-                aria-label={"Delete " + task.text}
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </ul>
-      </main>
-    </div>
+
+      <form style={styles.form} onSubmit={addTask} aria-label="Add new task">
+        <input
+          type="text"
+          placeholder="New task"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          style={styles.input}
+          aria-label="Task description"
+        />
+        <button type="submit" style={styles.button} aria-label="Add task">
+          Add
+        </button>
+      </form>
+
+      <ul style={styles.list} aria-label="Task list">
+        {tasks.map((task) => (
+          <li key={task.id} style={styles.listItem}>
+            <span>{task.text}</span>
+            <button
+              onClick={() => removeTask(task.id)}
+              style={styles.deleteBtn}
+              aria-label={`Delete ${task.text}`}
+            >
+              ✕
+            </button>
+          </li>
+        ))}
+      </ul>
+    </main>
   );
 }
